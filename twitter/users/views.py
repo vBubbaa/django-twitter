@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
+from users.models import CustomUser
+from django.shortcuts import get_object_or_404
 
 def home(request):
     return render(request, 'home.html')
@@ -20,3 +23,7 @@ def signup(request):
         form = CustomUserCreationForm()
 
     return render(request, 'signup.html', {'form': form})
+
+def useroverview(request, username):
+    user = get_object_or_404(CustomUser, username=username)
+    return render(request, 'useroverview.html', {'user': user})

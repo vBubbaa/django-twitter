@@ -6,7 +6,13 @@
 </head>
 <body>
   <nav>
-    <p>Base Nav</p>
+    {% if user.is_authenticated %}
+      <p>{{ user.username }}</p>
+      <p><a href="{% url 'logout' %}">logout</a></p>
+    {% else %}
+      <a href="{% url 'login' %}">login</a> |
+      <a href="{% url 'signup' %}">signup</a>
+    {% endif %}
   </nav>
   <main>
     {% block content %}
