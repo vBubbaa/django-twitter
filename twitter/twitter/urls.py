@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
-from tweets import views as tweetviews
+from users import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('tweets.urls')),
-    path('user/', include('django.contrib.auth.urls')),
-    path('signup/', tweetviews.signup, name='signup')
+    path('', views.home, name='home'),
+    path('users/', include('users.urls')),
+    path('users/', include('django.contrib.auth.urls')),
 ]
