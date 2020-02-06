@@ -25,5 +25,5 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 def useroverview(request, username):
-    user = get_object_or_404(CustomUser, username=username)
-    return render(request, 'useroverview.html', {'user': user})
+    userprofile = get_object_or_404(CustomUser, username=username)
+    return render(request, 'useroverview.html', {'userprofile': userprofile})
