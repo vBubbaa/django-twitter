@@ -26,4 +26,5 @@ def signup(request):
 
 def useroverview(request, username):
     userprofile = get_object_or_404(CustomUser, username=username)
-    return render(request, 'useroverview.html', {'userprofile': userprofile})
+    tweets = userprofile.tweets.all()
+    return render(request, 'useroverview.html', {'userprofile': userprofile, 'tweets': tweets})

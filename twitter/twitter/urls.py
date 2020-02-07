@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('user/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
+    path('tweet/', include('tweets.urls')),
 ]
