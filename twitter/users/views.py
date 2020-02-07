@@ -3,10 +3,12 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from users.models import CustomUser
+from tweets.models import Tweet
 from django.shortcuts import get_object_or_404
 
 def home(request):
-    return render(request, 'home.html')
+    tweets = Tweet.objects.all()
+    return render(request, 'home.html', {'tweets': tweets})
 
 def signup(request):
     if request.method =='POST':

@@ -1,11 +1,23 @@
 {% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
+{% load humanize %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  <h1>Hi {{ user.username }}</h1>
-{% else %}
-  <h1>Login or Signup</h1>
-{% endif %}
+  <h1>Recent Tweets</h1>
+  {% if tweets %}
+    {% for tweet in tweets %}
+    <div class="tweet">
+      <div class="tweet-header">
+        <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ tweet.user.username }}</a></span>
+        <span>{{ tweet.created_date|naturaltime }}</span>
+      </div>
+      <div class="tweet-content">
+        {{ tweet.text }}
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <h2>No tweets at this time.</h2>
+  {% endif %}
 {% endblock %}

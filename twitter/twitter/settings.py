@@ -13,6 +13,7 @@ SECRET_KEY = 'f$i1y0!gtey*j1nc)n$n^w_qu61&!b2(%xsgava7qik1kpz2y*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = []
 
 
@@ -25,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'users.apps.UsersConfig',
     'tweets',
 ]
