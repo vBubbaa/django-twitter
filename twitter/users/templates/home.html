@@ -1,31 +1,79 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}Home{% endblock %}
 {% load humanize %}
 
 {% block header %}
-<link rel="stylesheet" href="{% static 'css/tweet.css' %}">
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tweet.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 {% block content %}
+  <form id="tweet-form" method="post" action="{% url 'newtweet' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <textarea type="text" class="form-control" id="text" name="text" placeholder="What is on your mind?"></textarea>
+    </div>
+    <button type="submit" class="btn">Submit</button>
+  </form>
   <h1>Recent Tweets</h1>
   <hr>
-  {% if tweets %}
-    {% for tweet in tweets %}
-      <div class="tweet">
-          <div class="tweet-header">
-            <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ tweet.user.username }}</a></span>
-            <span>{{ tweet.created_date|naturaltime }}</span>
-          </div>
-          <a href="{% url 'tweet' tweet.user.username tweet.pk %}">
-            <div class="tweet-content">
-              {{ tweet.text }}
+  <div class="tweets">
+    {% if tweets %}
+      {% for tweet in tweets %}
+        <div class="tweet">
+            <div class="tweet-header">
+              <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ tweet.user.username }}</a></span>
+              <span>{{ tweet.created_date|naturaltime }}</span>
             </div>
-          </a>
-      </div>
-      <hr>
-    {% endfor %}
-  {% else %}
-    <h2>No tweets at this time.</h2>
-  {% endif %}
+            <a href="{% url 'tweet' tweet.user.username tweet.pk %}">
+              <div class="tweet-content">
+                {{ tweet.text }}
+              </div>
+            </a>
+        </div>
+        <hr>
+      {% endfor %}
+    {% else %}
+      <h2>No tweets at this time.</h2>
+    {% endif %}
+  </div>
+
+  <script type="text/javascript">
+    console.log('script')
+    $('#tweet-form').on('submit', function(e) {
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        dataType: "json",
+        url: '{% url "newtweet" %}',
+        data: {
+          text: $('#text').val(),
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'post'
+        },
+        success:function(json) {
+          console.log('success')
+          document.getElementById("tweet-form").reset();
+          $(".tweets").prepend(
+            '<div class="tweet">' +
+                '<div class="tweet-header">' +
+                  '<span><a href="' + json.userurl + '">@' + json.username + '</a></span>' +
+                  '<span>' + json.tweetdate + '</span>' +
+                '</div>' +
+                '<a href="' + json.tweeturl + '">' +
+                  '<div class="tweet-content">' +
+                    json.text +
+                  '</div>' +
+                '</a>' +
+            '</div>'
+          )
+        },
+
+        error:function(xhr, errmsg, err) {
+          console.log(xhr.status + ": " + xhr.responseText)
+        }
+      });
+    });
+  </script>
 {% endblock %}

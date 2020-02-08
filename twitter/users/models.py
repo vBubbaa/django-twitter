@@ -6,3 +6,6 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def get_absolute_url(self):
+        return str(self.username) + '/'
