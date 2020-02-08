@@ -3,6 +3,10 @@
 {% block title %}Home{% endblock %}
 {% load humanize %}
 
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/tweet.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 {% block content %}
   <h1>Recent Tweets</h1>
   <hr>
