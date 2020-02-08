@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from users.models import CustomUser
@@ -25,6 +25,19 @@ def signup(request):
         form = CustomUserCreationForm()
 
     return render(request, 'signup.html', {'form': form})
+
+@login_required
+def profileupdate(request, username):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.cleaned_data.get('bio')
+            form.save()
+            return redirect('useroverview', username=request.user.username)
+
+    else:
+        form = CustomUserChangeForm()
+    return render(request, 'userupdate.html', {'form': form})
 
 def useroverview(request, username):
     userprofile = get_object_or_404(CustomUser, username=username)
