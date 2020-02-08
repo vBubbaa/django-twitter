@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Tweet | {{ tweet.pk }}{% endblock %}
+{% load humanize %}
+
+{% block content %}
+<div class="tweet">
+  <div class="tweet-header">
+    <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ tweet.user.username }}</a></span>
+    <span>{{ tweet.created_date|naturaltime }}</span>
+  </div>
+  <div class="tweet-content">
+    {{ tweet.text }}
+  </div>
+</div>
+
+<h3><a href="{% url 'comment' %}">Make a comment</a></h3>
+
+<h2>Comments</h2>
+<div id="comments">
+{% for comment in tweet.comments.all %}
+  {% if comment %}
+    <div class="comment">
+      <div class="comment-header">
+        <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ comment.user.username }}</a></span>
+        <span>{{ comment.created_date|naturaltime }}</span>
+      </div>
+      {{ comment.text }}
+    </div>
+  {% else %}
+    <h3>No comments at this time</h3>
+  {% endif %}
+{% endfor %}
+</div>
+{% endblock %}

@@ -5,17 +5,21 @@
 
 {% block content %}
   <h1>Recent Tweets</h1>
+  <hr>
   {% if tweets %}
     {% for tweet in tweets %}
-    <div class="tweet">
-      <div class="tweet-header">
-        <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ tweet.user.username }}</a></span>
-        <span>{{ tweet.created_date|naturaltime }}</span>
+      <div class="tweet">
+          <div class="tweet-header">
+            <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ tweet.user.username }}</a></span>
+            <span>{{ tweet.created_date|naturaltime }}</span>
+          </div>
+          <a href="{% url 'tweet' tweet.user.username tweet.pk %}">
+            <div class="tweet-content">
+              {{ tweet.text }}
+            </div>
+          </a>
       </div>
-      <div class="tweet-content">
-        {{ tweet.text }}
-      </div>
-    </div>
+      <hr>
     {% endfor %}
   {% else %}
     <h2>No tweets at this time.</h2>
