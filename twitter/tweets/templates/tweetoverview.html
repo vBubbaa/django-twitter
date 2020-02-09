@@ -17,6 +17,15 @@
 <h3><a href="{% url 'comment' %}">Make a comment</a></h3>
 
 <h2>Comments</h2>
+
+<form id="comment-form" method="post" action="{% url 'comment' %}">
+  {% csrf_token %}
+  <div class="form-group">
+    <textarea type="text" class="form-control" id="text" name="text" placeholder="Write a comment!"></textarea>
+  </div>
+  <button type="submit" class="btn">Submit</button>
+</form>
+
 <div id="comments">
 {% for comment in tweet.comments.all %}
   {% if comment %}
@@ -27,9 +36,49 @@
       </div>
       {{ comment.text }}
     </div>
+    <hr>
   {% else %}
     <h3>No comments at this time</h3>
   {% endif %}
 {% endfor %}
 </div>
+
+<script type="text/javascript">
+  console.log('script')
+  var twitterid = {{ tweet.pk }}
+  $('#comment-form').on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      dataType: "json",
+      url: '{% url "comment" %}',
+      data: {
+        text: $('#text').val(),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post',
+        tweetid: twitterid,
+      },
+
+      success:function(json) {
+        console.log('success')
+        document.getElementById("comment-form").reset();
+        $("#comments").prepend(
+        '<div class="comment">' +
+          '<div class="comment-header">' +
+            '<span><a href="' + json.userurl + '">@' + json.username + '</a></span> ' +
+            '<span>' + json.createddate + '</span>' +
+          '</div>' +
+          json.text +
+        '</div>' +
+        '<hr>'
+        )
+      },
+
+      error:function(xhr, errmsg, err) {
+        console.log(xhr.status + ": " + xhr.responseText)
+      }
+    });
+  });
+</script>
+
 {% endblock %}

@@ -16,6 +16,7 @@
     </div>
     <button type="submit" class="btn">Submit</button>
   </form>
+
   <h1>Recent Tweets</h1>
   <hr>
   <div class="tweets">
@@ -58,7 +59,7 @@
           $(".tweets").prepend(
             '<div class="tweet">' +
                 '<div class="tweet-header">' +
-                  '<span><a href="' + json.userurl + '">@' + json.username + '</a></span>' +
+                  '<span><a href="' + json.userurl + '">@' + json.username + '</a></span> ' +
                   '<span>' + json.tweetdate + '</span>' +
                 '</div>' +
                 '<a href="' + json.tweeturl + '">' +
@@ -66,7 +67,8 @@
                     json.text +
                   '</div>' +
                 '</a>' +
-            '</div>'
+            '</div>' +
+            '<hr>'
           )
         },
 

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from tweets.forms import TweetForm, CommentForm
 from tweets.models import Tweet, Comment
 from django.http import HttpResponse, JsonResponse
+from django.contrib.humanize.templatetags.humanize import naturaltime
 import json
 
 @login_required
@@ -21,7 +22,7 @@ def newtweet(request):
             text = text,
         )
 
-        res['tweetdate'] = tweet.created_date
+        res['tweetdate'] = naturaltime(tweet.created_date)
         res['tweetuser'] = tweet.user.username
         res['tweetpk'] = tweet.pk
 
@@ -39,17 +40,23 @@ def tweetoverview(request, tweet_id, username):
 
 @login_required
 def newcomment(request):
+    res = {}
     if request.method =='POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = Comment()
-            comment.user = request.user
-            comment.tweet = Tweet.objects.get(pk=request.session.get('tweetid'))
-            comment.text = form.cleaned_data['text']
-            comment.save()
-            return redirect(comment.tweet.get_absolute_url())
+        text = request.POST.get('text')
+        user = request.user
 
-    else:
-        form = CommentForm()
+        res['text'] = text
+        res['username'] = user.username
 
-    return render(request, 'newcomment.html', {'form': form})
+        comment = Comment.objects.create(
+            user = user,
+            text = text,
+            tweet = Tweet.objects.get(pk=request.POST.get('tweetid'))
+        )
+
+        res['createddate'] = naturaltime(comment.created_date)
+        res['userurl'] = user.get_absolute_url()
+
+        return JsonResponse(res, content_type='application/json')
+
+    return render(request, 'newtweet.html')

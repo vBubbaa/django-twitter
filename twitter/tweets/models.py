@@ -8,6 +8,9 @@ class Tweet(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     text = models.CharField(max_length=200, blank=False, null=False)
 
+    class Meta:
+        ordering = ['-created_date']
+
     def __str__(self):
         return self.text
 
@@ -19,3 +22,10 @@ class Comment(models.Model):
     tweet = models.ForeignKey(Tweet, related_name='comments', on_delete=models.CASCADE)
     created_date = models.DateTimeField(default=timezone.now)
     text = models.CharField(max_length=200, blank=False, null=False)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def __str__(self):
+        return self.text
+        
