@@ -12,7 +12,7 @@
   <form id="tweet-form" method="post" action="{% url 'newtweet' %}">
     {% csrf_token %}
     <div class="form-group">
-      <textarea type="text" class="form-control" id="text" name="text" placeholder="What is on your mind?"></textarea>
+      <textarea type="text" class="form-control" id="text" name="text" placeholder="What's on your mind?"></textarea>
     </div>
     <button type="submit" class="btn">Submit</button>
   </form>

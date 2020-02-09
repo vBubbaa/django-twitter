@@ -11,7 +11,6 @@ def newtweet(request):
     res = {}
     if request.method =='POST':
         text = request.POST.get('text')
-        print('text@@@@@@@@@@@@@' + str(text))
         user = request.user
 
         res['text'] = text

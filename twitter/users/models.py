@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 
 class CustomUser(AbstractUser):
     bio = models.TextField(max_length=264)
@@ -8,4 +9,6 @@ class CustomUser(AbstractUser):
         return self.username
 
     def get_absolute_url(self):
-        return str(self.username) + '/'
+        return reverse('useroverview', kwargs={
+            'username': self.username
+        })
