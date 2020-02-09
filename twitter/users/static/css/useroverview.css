@@ -1,0 +1,9 @@
+.user-box {
+  display: flex;
+  flex-direction: column;
+  padding: .5rem 1rem;
+}
+
+.user-box span {
+  padding-bottom: .5rem;
+}

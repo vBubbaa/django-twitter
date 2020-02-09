@@ -1,0 +1,44 @@
+* {
+  font-size: 24px;
+}
+
+.tweet-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.tweets {
+  width: 60%;
+}
+
+.tweet {
+  border: 1px solid lightgray;
+  padding: .5rem 1rem;
+}
+
+/* Bootstrap media queries */
+@media (min-width: 576px) {
+  .tweets {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .tweets {
+    width: 90%;
+  }
+}
+
+@media (min-width: 992px) {
+  .tweets {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .tweets {
+    width: 80%;
+  }
+}

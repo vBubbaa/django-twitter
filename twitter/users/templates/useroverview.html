@@ -1,20 +1,37 @@
 {% extends 'base.html' %}
+{% load humanize %}
+{% load staticfiles %}
+
+{% block header %}
+  <link rel="stylesheet" href="{% static 'css/tweet.css' %}">
+  <link rel="stylesheet" href="{% static 'css/useroverview.css' %}">
+{% endblock %}
 
 {% block content %}
-  <h1>Welcome to {{ userprofile.username }}'s user overview page.</h1>
-  <h2>Bio: {{ userprofile.bio }}</h2>
-
-  <h3><a href="{% url 'profileupdate' userprofile.username %}">Edit your profile</a></h3>
-
-  <h2>Tweets</h2>
-  {% if tweets %}
-    {% for tweet in tweets %}
-      <hr>
-      <h3>{{ tweet.text }}</h3>
-      <h4>{{ tweet.created_date }}</h4>
-      <hr>
-    {% endfor %}
-  {% else %}
-
-  {% endif %}
+  <div class="tweet-box">
+    <div class="tweets">
+      <div class="user-box tweet">
+        <span>@{{ userprofile.username }}</span>
+        <span>Bio: {{ userprofile.bio }}</span>
+        <div class="btn-twitter"><a href="{% url 'profileupdate' userprofile.username %}">Edit your profile</a></div>
+      </div>
+      {% if tweets %}
+        {% for tweet in tweets %}
+          <div class="tweet">
+              <div class="tweet-header">
+                <span>@<a href="{% url 'useroverview' tweet.user.username %}">{{ tweet.user.username }}</a></span>
+                <span>{{ tweet.created_date|naturaltime }}</span>
+              </div>
+              <a href="{% url 'tweet' tweet.user.username tweet.pk %}">
+                <div class="tweet-content">
+                  {{ tweet.text }}
+                </div>
+              </a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <h2>No tweets at this time.</h2>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}

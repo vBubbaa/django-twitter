@@ -2,45 +2,56 @@
 
 {% block title %}Tweet | {{ tweet.pk }}{% endblock %}
 {% load humanize %}
+{% load staticfiles %}
+
+{% block header %}
+  <link rel="stylesheet" href="{% static 'css/tweet.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tweetoverview.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="tweet">
-  <div class="tweet-header">
-    <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ tweet.user.username }}</a></span>
-    <span>{{ tweet.created_date|naturaltime }}</span>
-  </div>
-  <div class="tweet-content">
-    {{ tweet.text }}
-  </div>
-</div>
 
-<h3><a href="{% url 'comment' %}">Make a comment</a></h3>
-
-<h2>Comments</h2>
-
-<form id="comment-form" method="post" action="{% url 'comment' %}">
-  {% csrf_token %}
-  <div class="form-group">
-    <textarea type="text" class="form-control" id="text" name="text" placeholder="Write a comment!"></textarea>
-  </div>
-  <button type="submit" class="btn">Submit</button>
-</form>
-
-<div id="comments">
-{% for comment in tweet.comments.all %}
-  {% if comment %}
-    <div class="comment">
-      <div class="comment-header">
-        <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ comment.user.username }}</a></span>
-        <span>{{ comment.created_date|naturaltime }}</span>
-      </div>
-      {{ comment.text }}
+<div class="tweet-box">
+  <div class="tweets">
+    <div class="tweet">
+        <div class="tweet-header">
+          <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ tweet.user.username }}</a></span>
+          <span>{{ tweet.created_date|naturaltime }}</span>
+        </div>
+        <a href="{% url 'tweet' tweet.user.username tweet.pk %}">
+          <div class="tweet-content">
+            {{ tweet.text }}
+          </div>
+        </a>
     </div>
-    <hr>
-  {% else %}
-    <h3>No comments at this time</h3>
-  {% endif %}
-{% endfor %}
+
+    <form id="comment-form" method="post" action="{% url 'comment' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <textarea type="text" class="form-control" id="text" name="text" placeholder="Write a comment!"></textarea>
+      </div>
+      <button type="submit" class="btn">Submit</button>
+    </form>
+
+    <h4>Comments</h4>
+
+    <div id="comments">
+    {% for comment in tweet.comments.all %}
+      {% if comment %}
+        <div class="comment tweet">
+          <div class="comment-header tweet-header">
+            <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ comment.user.username }}</a></span>
+            <span>{{ comment.created_date|naturaltime }}</span>
+          </div>
+          {{ comment.text }}
+        </div>
+      {% else %}
+        <h3>No comments at this time</h3>
+      {% endif %}
+    {% endfor %}
+    </div>
+
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -63,14 +74,13 @@
         console.log('success')
         document.getElementById("comment-form").reset();
         $("#comments").prepend(
-        '<div class="comment">' +
-          '<div class="comment-header">' +
+        '<div class="comment tweet">' +
+          '<div class="comment-header tweet-header">' +
             '<span><a href="' + json.userurl + '">@' + json.username + '</a></span> ' +
             '<span>' + json.createddate + '</span>' +
           '</div>' +
           json.text +
-        '</div>' +
-        '<hr>'
+        '</div>'
         )
       },
 

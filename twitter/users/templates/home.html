@@ -9,35 +9,35 @@
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 {% block content %}
-  <form id="tweet-form" method="post" action="{% url 'newtweet' %}">
-    {% csrf_token %}
-    <div class="form-group">
-      <textarea type="text" class="form-control" id="text" name="text" placeholder="What's on your mind?"></textarea>
-    </div>
-    <button type="submit" class="btn">Submit</button>
-  </form>
-
-  <h1>Recent Tweets</h1>
-  <hr>
-  <div class="tweets">
-    {% if tweets %}
-      {% for tweet in tweets %}
-        <div class="tweet">
-            <div class="tweet-header">
-              <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ tweet.user.username }}</a></span>
-              <span>{{ tweet.created_date|naturaltime }}</span>
-            </div>
-            <a href="{% url 'tweet' tweet.user.username tweet.pk %}">
-              <div class="tweet-content">
-                {{ tweet.text }}
-              </div>
-            </a>
+  <div class="tweet-box">
+    <div class="tweets">
+      <form id="tweet-form" method="post" action="{% url 'newtweet' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <textarea type="text" class="form-control" id="text" name="text" placeholder="What's on your mind?"></textarea>
         </div>
-        <hr>
-      {% endfor %}
-    {% else %}
-      <h2>No tweets at this time.</h2>
-    {% endif %}
+        <button type="submit" class="btn">Tweet</button>
+      </form>
+      <div id="prepend">
+        {% if tweets %}
+          {% for tweet in tweets %}
+            <div class="tweet">
+                <div class="tweet-header">
+                  <span>@<a href="{% url 'useroverview' tweet.user.username %}">{{ tweet.user.username }}</a></span>
+                  <span>{{ tweet.created_date|naturaltime }}</span>
+                </div>
+                <a href="{% url 'tweet' tweet.user.username tweet.pk %}">
+                  <div class="tweet-content">
+                    {{ tweet.text }}
+                  </div>
+                </a>
+            </div>
+          {% endfor %}
+        {% else %}
+          <h2>No tweets at this time.</h2>
+        {% endif %}
+      </div>
+    </div>
   </div>
 
   <script type="text/javascript">
@@ -56,10 +56,10 @@
         success:function(json) {
           console.log('success')
           document.getElementById("tweet-form").reset();
-          $(".tweets").prepend(
+          $("#prepend").prepend(
             '<div class="tweet">' +
                 '<div class="tweet-header">' +
-                  '<span><a href="' + json.userurl + '">@' + json.username + '</a></span> ' +
+                  '<span>@<a href="' + json.userurl + '">@' + json.username + '</a></span> ' +
                   '<span>' + json.tweetdate + '</span>' +
                 '</div>' +
                 '<a href="' + json.tweeturl + '">' +
@@ -67,8 +67,7 @@
                     json.text +
                   '</div>' +
                 '</a>' +
-            '</div>' +
-            '<hr>'
+            '</div>'
           )
         },
 
