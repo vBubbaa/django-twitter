@@ -38,4 +38,10 @@ class Comment(models.Model):
 
 class Likes(models.Model):
     tweet = models.ForeignKey(Tweet, related_name='liked_tweet', on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_liker', on_delete=models.CASCADE)
+
+    def check_if_liked(self, usercheck):
+        if self.user.get(usercheck).exists():
+            return True
+        else:
+            return False

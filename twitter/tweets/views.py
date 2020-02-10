@@ -60,6 +60,10 @@ def newcomment(request):
 
     return render(request, 'newtweet.html')
 
+"""
+- the liketweet view is the endpoint we hit with ajax when a logged in user
+  hits the like button (the heart <i>)
+"""
 @login_required
 def liketweet(request):
     res = {}
@@ -68,11 +72,22 @@ def liketweet(request):
         tweet = get_object_or_404(Tweet, pk = tweetid)
         user = request.user
 
-        Likes.objects.create(
-            user = user,
-            tweet = tweet,
-        )
+        # Check to see if the user already likes the tweet, if it does
+        # then we delete the preexisting like
+        if Likes.objects.filter(tweet=tweet, user=user).exists():
+            print("already liked")
+            Likes.objects.filter(tweet=tweet, user=user).delete()
+            print("Deleted Like..")
+            res['alreadyliked'] = True
 
+        # If the like doesn't exist, then we create the like on the tweet
+        else:
+            Likes.objects.create(
+                user = user,
+                tweet = tweet,
+            )
+
+        # Return the likecount so that we can update the likecount with the ajax response
         res['likecount'] = tweet.get_likes()
 
         return JsonResponse(res, content_type='application/json')
