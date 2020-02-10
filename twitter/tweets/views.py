@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from tweets.forms import TweetForm, CommentForm
-from tweets.models import Tweet, Comment
+from tweets.models import Tweet, Comment, Likes
 from django.http import HttpResponse, JsonResponse
 from django.contrib.humanize.templatetags.humanize import naturaltime
 import json
@@ -55,6 +55,25 @@ def newcomment(request):
 
         res['createddate'] = naturaltime(comment.created_date)
         res['userurl'] = user.get_absolute_url()
+
+        return JsonResponse(res, content_type='application/json')
+
+    return render(request, 'newtweet.html')
+
+@login_required
+def liketweet(request):
+    res = {}
+    if request.method == 'GET':
+        tweetid = request.GET['tweet_id']
+        tweet = get_object_or_404(Tweet, pk = tweetid)
+        user = request.user
+
+        Likes.objects.create(
+            user = user,
+            tweet = tweet,
+        )
+
+        res['likecount'] = tweet.get_likes()
 
         return JsonResponse(res, content_type='application/json')
 

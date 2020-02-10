@@ -21,6 +21,9 @@ class Tweet(models.Model):
             'username': self.user.username
         })
 
+    def get_likes(self):
+        return self.liked_tweet.count()
+
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comments', on_delete=models.CASCADE)
     tweet = models.ForeignKey(Tweet, related_name='comments', on_delete=models.CASCADE)
@@ -32,3 +35,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+class Likes(models.Model):
+    tweet = models.ForeignKey(Tweet, related_name='liked_tweet', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE)
