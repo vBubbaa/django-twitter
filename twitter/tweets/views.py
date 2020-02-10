@@ -78,7 +78,7 @@ def liketweet(request):
             print("already liked")
             Likes.objects.filter(tweet=tweet, user=user).delete()
             print("Deleted Like..")
-            res['alreadyliked'] = True
+            res['delete'] = True
 
         # If the like doesn't exist, then we create the like on the tweet
         else:

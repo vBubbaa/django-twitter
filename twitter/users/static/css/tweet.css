@@ -18,6 +18,10 @@
   padding: .5rem 1rem;
 }
 
+.fa-heart {
+  color: red;
+}
+
 /* Bootstrap media queries */
 @media (min-width: 576px) {
   .tweets {
