@@ -4,6 +4,8 @@
 {% load humanize %}
 {% load staticfiles %}
 
+{% load tweet_extras %}
+
 {% block header %}
   <link rel="stylesheet" href="{% static 'css/tweet.css' %}">
   <link rel="stylesheet" href="{% static 'css/tweetoverview.css' %}">
@@ -23,6 +25,12 @@
             {{ tweet.text }}
           </div>
         </a>
+        {% if tweet|check_if_liked:request.user %}
+          <i class="fas fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i>
+        {% else %}
+          <i class="far fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i>
+        {% endif %}
+        <span id="likecount{{ tweet.pk }}">{{ tweet.liked_tweet.count }}</span>
     </div>
 
     <form id="comment-form" method="post" action="{% url 'comment' %}">
@@ -91,4 +99,28 @@
   });
 </script>
 
+
+<script type="text/javascript">
+  $('.fa-heart').click(function() {
+    var id = $(this).attr("data-tweetid");
+    $.ajax({
+      type: "GET",
+      url: "{% url 'liketweet' %}",
+      data: {
+        tweet_id: id
+      },
+
+      success: function(json) {
+        $('#like' + id).removeClass('far');
+        $('#like' + id).addClass('fas');
+        $('#likecount' + id).text(json.likecount);
+        if(json.delete == true) {
+          $('.fa-heart').removeClass('fas').addClass('far');
+        } else {
+          $('.fa-heart').removeClass('far').addClass('fas');
+        }
+      }
+    });
+  });
+</script>
 {% endblock %}

@@ -23,23 +23,21 @@
         {% if tweets %}
           {% for tweet in tweets %}
             <div class="tweet">
-                <div class="tweet-header">
-                  <span>@<a href="{% url 'useroverview' tweet.user.username %}">{{ tweet.user.username }}</a></span>
-                  <span>{{ tweet.created_date|naturaltime }}</span>
+              <div class="tweet-header">
+                <span>@<a href="{% url 'useroverview' tweet.user.username %}">{{ tweet.user.username }}</a></span>
+                <span>{{ tweet.created_date|naturaltime }}</span>
+              </div>
+              <a href="{% url 'tweet' tweet.user.username tweet.pk %}">
+                <div class="tweet-content">
+                  {{ tweet.text }}
                 </div>
-                <a href="{% url 'tweet' tweet.user.username tweet.pk %}">
-                  <div class="tweet-content">
-                    {{ tweet.text }}
-                  </div>
-                </a>
-                {% if tweet|check_if_liked:request.user %}
-                  <i class="fas fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i>
-                  <span id="likecount{{ tweet.pk }}">{{ tweet.liked_tweet.count }}</span>
-                {% else %}
-                  <i class="far fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i>
-                  <span id="likecount{{ tweet.pk }}">{{ tweet.liked_tweet.count }}</span>
-                {% endif %}
-
+              </a>
+              {% if tweet|check_if_liked:request.user %}
+                <i class="fas fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i>
+              {% else %}
+                <i class="far fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i>
+              {% endif %}
+              <span id="likecount{{ tweet.pk }}">{{ tweet.liked_tweet.count }}</span>
             </div>
           {% endfor %}
         {% else %}
@@ -101,7 +99,6 @@
           $('#like' + id).addClass('fas');
           $('#likecount' + id).text(json.likecount);
           if(json.delete == true) {
-            console.log("delet")
             $('.fa-heart').removeClass('fas').addClass('far');
           } else {
             $('.fa-heart').removeClass('far').addClass('fas');
