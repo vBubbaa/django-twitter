@@ -1,5 +1,7 @@
 from django import template
 from tweets.models import Likes
+from django.shortcuts import redirect
+
 register = template.Library()
 
 @register.filter(name='check_if_liked')

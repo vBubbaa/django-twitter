@@ -32,10 +32,14 @@
                   {{ tweet.text }}
                 </div>
               </a>
-              {% if tweet|check_if_liked:request.user %}
-                <i class="fas fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i>
+              {% if request.user.is_anonymous %}
+                <a href="{% url 'login' %}"><i class="far fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i></a>
               {% else %}
-                <i class="far fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i>
+                {% if tweet|check_if_liked:request.user %}
+                  <i class="fas fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i>
+                {% else %}
+                  <i class="far fa-heart" id="like{{ tweet.pk }}" data-tweetid="{{ tweet.pk }}"></i>
+                {% endif %}
               {% endif %}
               <span id="likecount{{ tweet.pk }}">{{ tweet.liked_tweet.count }}</span>
             </div>
