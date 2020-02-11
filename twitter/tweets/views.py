@@ -6,6 +6,11 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.humanize.templatetags.humanize import naturaltime
 import json
 
+"""
+- View used by ajax to create a new Tweet object
+- Ajax will send the data to this view and the view processes the information
+  and creates the new object
+"""
 @login_required
 def newtweet(request):
     res = {}
@@ -21,10 +26,14 @@ def newtweet(request):
             text = text,
         )
 
+        # Pass the tweet that was just created for the prepend() method
+        # that will update the page without refreshing with the new tweet
         res['tweetdate'] = naturaltime(tweet.created_date)
         res['tweetuser'] = tweet.user.username
         res['tweetpk'] = tweet.pk
 
+        # Send back the tweet and userurl for the success prepend() function
+        # that will post the new tweet without refreshing
         res['tweeturl'] = tweet.get_absolute_url()
         res['userurl'] = user.get_absolute_url()
 
@@ -34,9 +43,11 @@ def newtweet(request):
 
 def tweetoverview(request, tweet_id, username):
     tweet = Tweet.objects.get(pk=tweet_id)
+    # Sets the session tweetid to the clicked tweet
     request.session['tweetid'] = tweet.pk
     return render(request, 'tweetoverview.html', {'tweet': tweet})
 
+# New comment endpoint hit when ajax sends a new comment POST
 @login_required
 def newcomment(request):
     res = {}
