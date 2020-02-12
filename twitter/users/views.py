@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from users.models import CustomUser
+from users.models import CustomUser, Follow
 from tweets.models import Tweet
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, JsonResponse
 
 def home(request):
     tweets = Tweet.objects.all()
@@ -53,3 +54,32 @@ def useroverview(request, username):
     userprofile = get_object_or_404(CustomUser, username=username)
     tweets = userprofile.tweets.all()
     return render(request, 'useroverview.html', {'userprofile': userprofile, 'tweets': tweets})
+
+"""
+
+"""
+@login_required
+def follow(request):
+    res = {}
+    if request.method == 'GET':
+        userid = request.GET['userid']
+        following = get_object_or_404(CustomUser, pk=userid)
+        follower = request.user
+
+        # Check to see if the user already likes the tweet, if it does
+        # then we delete the preexisting like
+        if Follow.objects.filter(following=following, follower=follower).exists():
+            Follow.objects.filter(following=following, follower=follower).delete()
+            res['delete'] = True
+
+        # If the like doesn't exist, then we create the like on the tweet
+        else:
+            Follow.objects.create(
+                following=following,
+                follower=follower
+            )
+            res['delete'] = False
+
+        return JsonResponse(res, content_type='application/json')
+
+    return render(request, 'newtweet.html')

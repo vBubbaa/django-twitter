@@ -3,6 +3,7 @@
 
 {% load humanize %}
 {% load tweet_extras %}
+{% load user_extras %}
 
 {% block title %}
 {{ userprofile.username }}'s profile overview
@@ -20,6 +21,17 @@
         <span>@{{ userprofile.username }}</span>
         <span>Bio: {{ userprofile.bio }}</span>
         <div class="btn-twitter"><a href="{% url 'profileupdate' userprofile.username %}">Edit your profile</a></div>
+        {% if request.user.is_anonymous %}
+          <div class="btn-twitter follow"><a href="{% url 'login' %}">Follow</a></div>
+        {% else %}
+          {% if request.user != userprofile %}
+            {% if request.user|is_following:userprofile %}
+              <div class="btn-twitter follow" data-userid="{{ userprofile.pk }}"">Unfollow</div>
+            {% else %}
+              <div class="btn-twitter follow" data-userid="{{ userprofile.pk }}"">Follow</div>
+            {% endif %}
+          {% endif %}
+        {% endif %}
       </div>
       {% if tweets %}
         {% for tweet in tweets %}
@@ -70,6 +82,30 @@
           } else {
             $('.fa-heart').removeClass('far').addClass('fas');
           }
+        }
+      });
+    });
+  </script>
+
+  <script type="text/javascript">
+    $('.follow').click(function() {
+      var id = $(this).attr("data-userid");
+      $.ajax({
+        type: "GET",
+        url: "{% url 'follow' %}",
+        data: {
+          userid: id
+        },
+
+        success: function(json) {
+          if(json.delete == true) {
+            $(".follow").text("Unfollow")
+            console.log("unfollow")
+          } else {
+            $(".follow").text("Follow")
+            console.log("follow")
+          }
+
         }
       });
     });
