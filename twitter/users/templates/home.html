@@ -18,13 +18,17 @@
       </div>
       <a href="{% url 'login' %}"><button type="submit" class="btn">Tweet</button></a>
       {% else %}
-        <form id="tweet-form" method="post" action="{% url 'newtweet' %}">
-          {% csrf_token %}
-          <div class="form-group">
-            <textarea type="text" class="form-control" id="text" name="text" placeholder="What's on your mind?"></textarea>
-          </div>
-          <button type="submit" class="btn">Tweet</button>
-        </form>
+      <div class="tweet-submit-form">
+          <form id="tweet-form" method="post" action="{% url 'newtweet' %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <textarea maxlength="200" rows="4" type="text" class="form-control" id="text" name="text" placeholder="What's on your mind?"></textarea>
+            </div>
+            <div class="new-tweet-bottom">
+              <button type="submit" class="btn twitter-btn" id="new-tweet-btn">Tweet</button>
+            </div>
+          </form>
+        </div>
       {% endif %}
       <div id="prepend">
         {% if tweets %}
@@ -106,13 +110,13 @@
         },
 
         success: function(json) {
-          $('#like' + id).removeClass('far');
-          $('#like' + id).addClass('fas');
+          // $('#like' + id).removeClass('far');
+          // $('#like' + id).addClass('fas');
           $('#likecount' + id).text(json.likecount);
           if(json.delete == true) {
-            $('.fa-heart').removeClass('fas').addClass('far');
+            $('#like' + id).removeClass('fas').addClass('far');
           } else {
-            $('.fa-heart').removeClass('far').addClass('fas');
+            $('#like' + id).removeClass('far').addClass('fas');
           }
         }
       });

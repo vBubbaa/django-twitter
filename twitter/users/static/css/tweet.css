@@ -1,5 +1,26 @@
 * {
-  font-size: 24px;
+  font-size: 1.5rem;
+}
+
+.twitter-btn {
+  background-color: #00acee !important;
+  border-radius: 50px !important;
+  color: white !important;
+  border: 1px solid black !important;
+}
+
+.twitter-btn:focus, twitter-btn:active {
+  border: none !important;
+  text-decoration: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.new-tweet-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: .5rem 1rem;
 }
 
 .tweet-box {

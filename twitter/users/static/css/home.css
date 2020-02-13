@@ -1,0 +1,14 @@
+textarea:focus, textarea:active {
+  border: none !important;
+  text-decoration: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.form-control {
+  border: none !important;
+}
+
+.tweet-submit-form {
+  border: 1px solid lightgray;
+}
