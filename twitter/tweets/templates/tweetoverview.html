@@ -36,14 +36,24 @@
         {% endif %}
         <span id="likecount{{ tweet.pk }}">{{ tweet.liked_tweet.count }}</span>
     </div>
-
-    <form id="comment-form" method="post" action="{% url 'comment' %}">
+    <div class="tweet-submit-form">
+      <form id="comment-form" method="post" action="{% url 'comment' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <textarea maxlength="200" rows="4" type="text" class="form-control" id="text" name="text" placeholder="Write a comment!"></textarea>
+        </div>
+        <div class="new-tweet-bottom">
+          <button type="submit" class="btn twitter-btn" id="new-tweet-btn">Comment</button>
+        </div>
+      </form>
+    </div>
+    <!-- <form id="comment-form" method="post" action="{% url 'comment' %}">
       {% csrf_token %}
       <div class="form-group">
         <textarea type="text" class="form-control" id="text" name="text" placeholder="Write a comment!"></textarea>
       </div>
       <button type="submit" class="btn">Submit</button>
-    </form>
+    </form> -->
 
     <h4>Comments</h4>
 

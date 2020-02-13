@@ -31,6 +31,7 @@ def newtweet(request):
         res['tweetdate'] = naturaltime(tweet.created_date)
         res['tweetuser'] = tweet.user.username
         res['tweetpk'] = tweet.pk
+        res['tweetlikecount'] = tweet.liked_tweet.count()
 
         # Send back the tweet and userurl for the success prepend() function
         # that will post the new tweet without refreshing

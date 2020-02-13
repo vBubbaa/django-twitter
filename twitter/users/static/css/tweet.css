@@ -2,6 +2,21 @@
   font-size: 1.5rem;
 }
 
+textarea:focus, textarea:active {
+  border: none !important;
+  text-decoration: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.form-control {
+  border: none !important;
+}
+
+.tweet-submit-form {
+  border: 1px solid lightgray;
+}
+
 .twitter-btn {
   background-color: #00acee !important;
   border-radius: 50px !important;

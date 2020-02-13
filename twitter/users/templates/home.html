@@ -14,21 +14,21 @@
     <div class="tweets">
       {% if request.user.is_anonymous %}
       <div class="form-group">
-        <textarea type="text" class="form-control" id="text" name="text" placeholder="What's on your mind?"></textarea>
+        <textarea required type="text" class="form-control" id="text" name="text" placeholder="What's on your mind?"></textarea>
       </div>
-      <a href="{% url 'login' %}"><button type="submit" class="btn">Tweet</button></a>
+      <a href="{% url 'login' %}"><button type="submit" class="btn twitter-btn">Tweet</button></a>
       {% else %}
       <div class="tweet-submit-form">
-          <form id="tweet-form" method="post" action="{% url 'newtweet' %}">
-            {% csrf_token %}
-            <div class="form-group">
-              <textarea maxlength="200" rows="4" type="text" class="form-control" id="text" name="text" placeholder="What's on your mind?"></textarea>
-            </div>
-            <div class="new-tweet-bottom">
-              <button type="submit" class="btn twitter-btn" id="new-tweet-btn">Tweet</button>
-            </div>
-          </form>
-        </div>
+        <form id="tweet-form" method="post" action="{% url 'newtweet' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <textarea maxlength="200" rows="4" type="text" class="form-control" id="text" name="text" placeholder="What's on your mind?"></textarea>
+          </div>
+          <div class="new-tweet-bottom">
+            <button type="submit" class="btn twitter-btn" id="new-tweet-btn">Tweet</button>
+          </div>
+        </form>
+      </div>
       {% endif %}
       <div id="prepend">
         {% if tweets %}
@@ -88,6 +88,8 @@
                     json.text +
                   '</div>' +
                 '</a>' +
+                '<i class="far fa-heart" id="like' + json.tweetpk + '" data-tweetid="' + json.tweetpk + '"></i>' +
+                '<span id="likecount' + json.tweetpk + '"> ' + json.tweetlikecount + '</span>' +
             '</div>'
           )
         },

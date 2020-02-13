@@ -17,32 +17,35 @@
 {% block content %}
   <div class="tweet-box">
     <div class="tweets">
-      <div class="user-box tweet">
+      <div class="user-top-section">
         <span>@{{ userprofile.username }}</span>
         <span>Bio: {{ userprofile.bio }}</span>
-        <div class="btn-twitter"><a href="{% url 'profileupdate' userprofile.username %}">Edit your profile</a></div>
         {% if request.user.is_anonymous %}
           <div class="btn-twitter follow"><a href="{% url 'login' %}">Follow</a></div>
         {% else %}
           {% if request.user != userprofile %}
             {% if request.user|is_following:userprofile %}
-              <div class="btn-twitter follow" id="follow" data-userid="{{ userprofile.pk }}"">Unfollow</div>
+              <button class="btn twitter-btn follow" id="follow" data-userid="{{ userprofile.pk }}"">Unfollow</button>
             {% else %}
-              <div class="btn-twitter follow" id="follow" data-userid="{{ userprofile.pk }}"">Follow</div>
+              <button class=" btn twitter-btn follow" id="follow" data-userid="{{ userprofile.pk }}"">Follow</button>
             {% endif %}
+          {% else %}
+            <button class="btn twitter-btn"><a href="{% url 'profileupdate' userprofile.username %}">Edit</a></button>
           {% endif %}
         {% endif %}
-        <div class="followers">
-          <a href="{% url 'userfollowers' userprofile.username %}" id="follower-id">
-            Followers {{ followers }}
-          </a>
-        </div>
-        <div class="following">
-          <a href="{% url 'userfollowing' userprofile.username %}">
-            Following {{ following }}
-          </a>
-        </div>
       </div>
+        <div class="new-tweet-bottom follow-info-section">
+          <div class="followers">
+            <a href="{% url 'userfollowers' userprofile.username %}" id="follower-id">
+              Followers {{ followers }}
+            </a>
+          </div>
+          <div class="following">
+            <a href="{% url 'userfollowing' userprofile.username %}">
+              Following {{ following }}
+            </a>
+          </div>
+        </div>
       {% if tweets %}
         {% for tweet in tweets %}
           <div class="tweet">

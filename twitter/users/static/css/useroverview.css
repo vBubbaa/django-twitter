@@ -7,3 +7,25 @@
 .user-box span {
   padding-bottom: .5rem;
 }
+
+.follow-info-section {
+  justify-content: flex-start !important;
+}
+
+.follow-info-section div {
+  width: 25%;
+}
+
+.user-top-section {
+  padding: .5rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.twitter-btn {
+  width: fit-content;
+}
+
+.twitter-btn a {
+  color: white !important;
+}
