@@ -6,7 +6,7 @@
 {% load user_extras %}
 
 {% block title %}
-{{ user.username }}'s followers
+{{ user.username }}'s followed users
 {% endblock %}
 
 {% block header %}
@@ -15,11 +15,11 @@
 {% endblock %}
 
 {% block content %}
-  <h1>{{ user.username }}'s followers</h1>
-  {% if followers %}
-    {% for f in followers %}
+<h1>Who follows {{ user.username }}</h1>
+  {% if following %}
+    {% for f in following %}
       <div class="user-box">
-        <a href="{% url 'useroverview' f.follower.username %}">{{ f.follower.username }}</a>
+        <a href="{% url 'useroverview' f.following.username %}">{{ f.following.username }}</a>
       </div>
     {% endfor %}
   {% else %}

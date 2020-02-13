@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 
 register = template.Library()
 
-# Custom template that returns T/F
+# Custom templatetag that returns T/F
 # @params: tweet obj, user obj
 # If the user has already liked the post than it returns false, else true
 # Used to customize heart icons to filled or not filled depending on like status

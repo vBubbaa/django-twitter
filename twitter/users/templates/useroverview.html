@@ -38,7 +38,9 @@
           </a>
         </div>
         <div class="following">
-
+          <a href="{% url 'userfollowing' userprofile.username %}">
+            Following {{ following }}
+          </a>
         </div>
       </div>
       {% if tweets %}

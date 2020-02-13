@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 
 register = template.Library()
 
-# Custom template that returns T/F
+# Custom templatetag that returns T/F
 # @params: request user(followee), user (who to follow)
 # Checks if the request user is following another user passed as @param
 @register.filter(name='is_following')

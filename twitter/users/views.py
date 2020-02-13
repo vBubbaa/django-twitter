@@ -56,7 +56,9 @@ def useroverview(request, username):
 
     # Grabs the number of followers the user has
     followers = Follow.objects.filter(following=userprofile).count()
-    print(followers)
+
+    # Grabs the people the user follows
+    following = Follow.objects.filter(follower=userprofile).count()
 
     tweets = userprofile.tweets.all()
     return render(
@@ -65,15 +67,24 @@ def useroverview(request, username):
         {
             'userprofile': userprofile,
             'tweets': tweets,
-            'followers': followers
+            'followers': followers,
+            'following': following
         }
     )
 
+# Returns the number of followers the user has queried by a username
 def userfollowers(request, username):
     user = get_object_or_404(CustomUser, username=username)
     followers = Follow.objects.filter(following=user).all()
 
     return render(request, 'userfollowers.html', {'followers': followers, 'user': user})
+
+# Returns the number people a user are following
+def userfollowing(request, username):
+    user = get_object_or_404(CustomUser, username=username)
+    following = Follow.objects.filter(follower = user).all()
+
+    return render(request, 'userfollowing.html', {'following': following, 'user': user})
 
 
 """
