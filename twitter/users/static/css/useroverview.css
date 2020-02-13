@@ -29,3 +29,10 @@
 .twitter-btn a {
   color: white !important;
 }
+
+#profile-picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  border: 2px solid black;
+}

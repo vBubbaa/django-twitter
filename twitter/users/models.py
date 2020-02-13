@@ -6,6 +6,9 @@ from django.conf import settings
 # Custom user model inherting from the AbstractUser class built into Django
 class CustomUser(AbstractUser):
     bio = models.TextField(max_length=264)
+    location = models.CharField(max_length=128, blank=True, null=True)
+    website = models.URLField(max_length=128, blank=True, null=True)
+    profilepicture = models.FileField(upload_to='profile_picture', default='nopic.jpeg')
 
     def __str__(self):
         return self.username

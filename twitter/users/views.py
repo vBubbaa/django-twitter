@@ -17,7 +17,7 @@ def home(request):
 """
 def signup(request):
     if request.method =='POST':
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             # Get data from the form and authenticate, then login
@@ -39,9 +39,12 @@ def signup(request):
 @login_required
 def profileupdate(request, username):
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, instance=request.user)
+        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.cleaned_data.get('bio')
+            form.cleaned_data.get('location')
+            form.cleaned_data.get('website')
+            form.cleaned_data.get('profilepicture')
             form.save()
             # After we update the profile, redirect them to their overview page
             return redirect('useroverview', username=request.user.username)

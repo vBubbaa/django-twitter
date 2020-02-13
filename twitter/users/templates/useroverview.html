@@ -18,6 +18,7 @@
   <div class="tweet-box">
     <div class="tweets">
       <div class="user-top-section">
+        <img id="profile-picture" src="{{ userprofile.profilepicture.url }}" alt="{{ userprofile.username }}'s profile picture">
         <span>@{{ userprofile.username }}</span>
         <span>Bio: {{ userprofile.bio }}</span>
         {% if request.user.is_anonymous %}
