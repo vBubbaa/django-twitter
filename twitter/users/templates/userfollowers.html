@@ -16,13 +16,16 @@
 
 {% block content %}
   <h1>{{ user.username }}'s followers</h1>
+  <div class="user-box-container">
   {% if followers %}
     {% for f in followers %}
       <div class="user-box">
+        <img class="tweet-user-picture" src="{{ f.follower.profilepicture.url }}" alt="{{ f.follower.username }}">
         <a href="{% url 'useroverview' f.follower.username %}">{{ f.follower.username }}</a>
       </div>
     {% endfor %}
   {% else %}
+  </div>
     <p>Nobody is following {{ user.username }}</p>
   {% endif %}
 {% endblock %}

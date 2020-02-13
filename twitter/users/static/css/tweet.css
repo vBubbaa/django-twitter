@@ -58,6 +58,13 @@ textarea:focus, textarea:active {
   color: red;
 }
 
+.tweet-user-picture {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50px;
+  border: 1px solid black;
+}
+
 /* Bootstrap media queries */
 @media (min-width: 576px) {
   .tweets {

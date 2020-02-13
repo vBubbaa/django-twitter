@@ -1,6 +1,15 @@
-.user-box {
+.user-box-container {
   display: flex;
   flex-direction: column;
+}
+
+.user-box {
+  display: flex;
+  flex-direction: row;
   border: 1px solid lightgray;
   padding: .5rem 1rem;
+}
+
+.user-box img {
+  margin-right: 10px;
 }

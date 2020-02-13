@@ -17,6 +17,7 @@
   <div class="tweets">
     <div class="tweet">
         <div class="tweet-header">
+          <img src="{{ tweet.user.profilepicture.url }}" class="tweet-user-picture" alt="{{ tweet.user.username }}'s profile picture">
           <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ tweet.user.username }}</a></span>
           <span>{{ tweet.created_date|naturaltime }}</span>
         </div>
@@ -47,13 +48,6 @@
         </div>
       </form>
     </div>
-    <!-- <form id="comment-form" method="post" action="{% url 'comment' %}">
-      {% csrf_token %}
-      <div class="form-group">
-        <textarea type="text" class="form-control" id="text" name="text" placeholder="Write a comment!"></textarea>
-      </div>
-      <button type="submit" class="btn">Submit</button>
-    </form> -->
 
     <h4>Comments</h4>
 
@@ -62,6 +56,7 @@
       {% if comment %}
         <div class="comment tweet">
           <div class="comment-header tweet-header">
+            <img src="{{ tweet.user.profilepicture.url }}" class="tweet-user-picture" alt="{{ tweet.user.username }}'s profile picture">
             <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ comment.user.username }}</a></span>
             <span>{{ comment.created_date|naturaltime }}</span>
           </div>

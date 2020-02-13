@@ -35,6 +35,7 @@
           {% for tweet in tweets %}
             <div class="tweet">
               <div class="tweet-header">
+                <img src="{{ tweet.user.profilepicture.url }}" class="tweet-user-picture" alt="{{ tweet.user.username }}'s profile picture">
                 <span>@<a href="{% url 'useroverview' tweet.user.username %}">{{ tweet.user.username }}</a></span>
                 <span>{{ tweet.created_date|naturaltime }}</span>
               </div>
