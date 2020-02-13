@@ -26,12 +26,20 @@
         {% else %}
           {% if request.user != userprofile %}
             {% if request.user|is_following:userprofile %}
-              <div class="btn-twitter follow" data-userid="{{ userprofile.pk }}"">Unfollow</div>
+              <div class="btn-twitter follow" id="follow" data-userid="{{ userprofile.pk }}"">Unfollow</div>
             {% else %}
-              <div class="btn-twitter follow" data-userid="{{ userprofile.pk }}"">Follow</div>
+              <div class="btn-twitter follow" id="follow" data-userid="{{ userprofile.pk }}"">Follow</div>
             {% endif %}
           {% endif %}
         {% endif %}
+        <div class="followers">
+          <a href="{% url 'userfollowers' userprofile.username %}" id="follower-id">
+            Followers {{ followers }}
+          </a>
+        </div>
+        <div class="following">
+
+        </div>
       </div>
       {% if tweets %}
         {% for tweet in tweets %}
@@ -88,6 +96,8 @@
   </script>
 
   <script type="text/javascript">
+    // Creates or removes follow object depending if request user
+    // is already following the overview user
     $('.follow').click(function() {
       var id = $(this).attr("data-userid");
       $.ajax({
@@ -99,12 +109,12 @@
 
         success: function(json) {
           if(json.delete == true) {
-            $(".follow").text("Unfollow")
-            console.log("unfollow")
+            $("#follow").text("Follow");
           } else {
-            $(".follow").text("Follow")
-            console.log("follow")
+            $("#follow").text("Unfollow");
           }
+          // Update the follower count after follow/unfollow action has occured in the backend
+          $("#follower-id").text("Followers " + json.newFollowerCount)
 
         }
       });

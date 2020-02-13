@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% load humanize %}
+{% load tweet_extras %}
+{% load user_extras %}
+
+{% block title %}
+{{ user.username }}'s followers
+{% endblock %}
+
+{% block header %}
+  <link rel="stylesheet" href="{% static 'css/userfollowers.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tweet.css' %}">  
+{% endblock %}
+
+{% block content %}
+  {% if followers %}
+    {% for f in followers %}
+      <div class="user-box">
+        <a href="{% url 'useroverview' f.follower.username %}">{{ f.follower.username }}</a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>Nobody is following {{ user.username }}</p>
+  {% endif %}
+{% endblock %}

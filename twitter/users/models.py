@@ -17,6 +17,7 @@ class CustomUser(AbstractUser):
             'username': self.username
         })
 
+# Follow model that keeps track of user follows
 class Follow(models.Model):
     following = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='following',on_delete=models.CASCADE)
     follower = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='follower',on_delete=models.CASCADE)

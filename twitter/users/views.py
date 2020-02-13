@@ -51,12 +51,35 @@ def profileupdate(request, username):
     return render(request, 'userupdate.html', {'form': form})
 
 def useroverview(request, username):
+    # The profile of the user for the overview page
     userprofile = get_object_or_404(CustomUser, username=username)
+
+    # Grabs the number of followers the user has
+    followers = Follow.objects.filter(following=userprofile).count()
+    print(followers)
+
     tweets = userprofile.tweets.all()
-    return render(request, 'useroverview.html', {'userprofile': userprofile, 'tweets': tweets})
+    return render(
+        request,
+        'useroverview.html',
+        {
+            'userprofile': userprofile,
+            'tweets': tweets,
+            'followers': followers
+        }
+    )
+
+def userfollowers(request, username):
+    user = get_object_or_404(CustomUser, username=username)
+    followers = Follow.objects.filter(following=user).all()
+
+    return render(request, 'userfollowers.html', {'followers': followers, 'user': user})
+
 
 """
-
+- Endpoint hit via ajax when a user clicks the follow button
+- Checks if the user is already following, if they are not it makes a follow object
+- Else it deletes the follow object (unfollows)
 """
 @login_required
 def follow(request):
@@ -66,13 +89,14 @@ def follow(request):
         following = get_object_or_404(CustomUser, pk=userid)
         follower = request.user
 
-        # Check to see if the user already likes the tweet, if it does
-        # then we delete the preexisting like
+        # Check to see if the user already follows, if they do, remove the follow object
         if Follow.objects.filter(following=following, follower=follower).exists():
             Follow.objects.filter(following=following, follower=follower).delete()
+            # set the delete action to true so we can render that in the frontend
             res['delete'] = True
 
-        # If the like doesn't exist, then we create the like on the tweet
+        # If the user isnt following them already, create the follow object
+        # and set the delete action to false so we can render that in the frontend
         else:
             Follow.objects.create(
                 following=following,
@@ -80,6 +104,7 @@ def follow(request):
             )
             res['delete'] = False
 
-        return JsonResponse(res, content_type='application/json')
+        # Return the count of followers after action happened to update frontend
+        res['newFollowerCount'] = Follow.objects.filter(following=following).count()
 
-    return render(request, 'newtweet.html')
+        return JsonResponse(res, content_type='application/json')
