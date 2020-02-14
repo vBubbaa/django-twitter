@@ -36,3 +36,25 @@
   border-radius: 50px;
   border: 2px solid black;
 }
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex-row * {
+  margin: .5rem;
+}
+
+.fa-location-arrow {
+  color: #74ed94;
+}
+
+.fa-link {
+  color: #3a3d3a;
+}
+
+#user-website {
+  margin-left: 0;
+}

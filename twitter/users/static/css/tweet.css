@@ -1,7 +1,3 @@
-* {
-  font-size: 1.5rem;
-}
-
 textarea:focus, textarea:active {
   border: none !important;
   text-decoration: none !important;

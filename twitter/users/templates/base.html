@@ -23,7 +23,9 @@
       <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'useroverview' user.username %}">{{ user.username }}</a>
+          <a class="nav-link" href="{% url 'useroverview' user.username %}">
+            <img src="{{ user.profilepicture.url}}" id="userpic-nav" alt="{{ user.username }}'s profile picture">
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'logout' %}">Logout</a>

@@ -1,5 +1,13 @@
+* {
+  font-size: 1.3rem;
+}
+
 main {
   padding: .5rem 1rem;
+}
+
+a {
+  color: #00acee !important;
 }
 
 .btn-twitter {
@@ -9,6 +17,9 @@ main {
   border: 3px solid #00acee;
 }
 
-a {
-  color: #00acee !important;
+#userpic-nav {
+  border-radius: 50px;
+  border: 1px solid black;
+  width: 2.5rem;
+  height: 2.5rem;
 }

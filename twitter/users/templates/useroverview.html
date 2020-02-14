@@ -18,9 +18,21 @@
   <div class="tweet-box">
     <div class="tweets">
       <div class="user-top-section">
-        <img id="profile-picture" src="{{ userprofile.profilepicture.url }}" alt="{{ userprofile.username }}'s profile picture">
-        <span>@{{ userprofile.username }}</span>
-        <span>Bio: {{ userprofile.bio }}</span>
+        <div class="flex-row">
+          <img id="profile-picture" src="{{ userprofile.profilepicture.url }}" alt="{{ userprofile.username }}'s profile picture">
+          <span>@{{ userprofile.username }}</span>
+        </div>
+        <div class="flex-row">
+          <span>{{ userprofile.bio }}</span>
+        </div>
+        <div class="flex-row">
+          {% if userprofile.location %}
+            <i class="fas fa-location-arrow"></i>{{  userprofile.location }}
+          {% endif %}
+          {% if userprofile.website %}
+            <i class="fas fa-link"></i><a id="user-website" href="{{ userprofile.website }}">{{  userprofile.website }}</a>
+          {% endif %}
+        </div>
         {% if request.user.is_anonymous %}
           <div class="btn-twitter follow"><a href="{% url 'login' %}">Follow</a></div>
         {% else %}
@@ -38,12 +50,12 @@
         <div class="new-tweet-bottom follow-info-section">
           <div class="followers">
             <a href="{% url 'userfollowers' userprofile.username %}" id="follower-id">
-              Followers {{ followers }}
+              {{ followers }} Followers
             </a>
           </div>
           <div class="following">
             <a href="{% url 'userfollowing' userprofile.username %}">
-              Following {{ following }}
+              {{ following }} Following
             </a>
           </div>
         </div>
