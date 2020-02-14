@@ -61,6 +61,10 @@ textarea:focus, textarea:active {
   border: 1px solid black;
 }
 
+.bio {
+  color: black !important;
+}
+
 /* Bootstrap media queries */
 @media (min-width: 576px) {
   .tweets {

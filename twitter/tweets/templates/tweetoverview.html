@@ -56,7 +56,7 @@
       {% if comment %}
         <div class="comment tweet">
           <div class="comment-header tweet-header">
-            <img src="{{ tweet.user.profilepicture.url }}" class="tweet-user-picture" alt="{{ tweet.user.username }}'s profile picture">
+            <img src="{{ comment.user.profilepicture.url }}" class="tweet-user-picture" alt="{{ comment.user.username }}'s profile picture">
             <span><a href="{% url 'useroverview' tweet.user.username %}">@{{ comment.user.username }}</a></span>
             <span>{{ comment.created_date|naturaltime }}</span>
           </div>

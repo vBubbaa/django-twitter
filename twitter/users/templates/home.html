@@ -40,7 +40,7 @@
                 <span>{{ tweet.created_date|naturaltime }}</span>
               </div>
               <a href="{% url 'tweet' tweet.user.username tweet.pk %}">
-                <div class="tweet-content">
+                <div class="tweet-content bio">
                   {{ tweet.text }}
                 </div>
               </a>
