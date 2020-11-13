@@ -60,8 +60,8 @@ given user
 ![Image of followers](https://github.com/vBubbaa/django-twitter/blob/master/readmeimages/profileoverview.png)
 
 # Inspiration
-I created this project so that I could showcase my raw django skills, and I thought that recreating a twiter like application was a 
-good way of doing so! I mainly did this project to showcase my Django backend skills.
+I created this project so that I could showcase my raw Django skills, and I thought that recreating a twitter like application was a 
+good way of doing so! I mainly did this project to showcase my Django back-end skills.
 
 # ContactMe
 - Linkedin: https://www.linkedin.com/in/michael-james-60b81216b/
